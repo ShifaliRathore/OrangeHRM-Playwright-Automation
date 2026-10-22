@@ -96,11 +96,6 @@ OrangeHRM-Playwright-Automation/
 ├── playwright.config.js            # Playwright configuration
 ├── package.json                    # Project dependencies & metadata
 ├── .github/workflows/playwright.yml # GitHub Actions CI pipeline
-│
-# Java source files (reference only — not executed by Playwright)
-├── RecruitmentPage.java            # Original Selenium Page Object
-├── RecruitmentTest.java            # Original TestNG happy-path tests
-└── RecruitmentValidationTest.java  # Original TestNG validation tests
 ```
 
 ---
@@ -405,39 +400,6 @@ Trigger → Checkout → Setup Node.js (LTS) → npm ci
 ```
 
 The HTML report is uploaded as a GitHub Actions artifact named `playwright-report` after every run, whether tests pass or fail.
-
----
-
-## Java Source Files (Reference)
-
-The three Java files in the project root are the **original Selenium/TestNG implementation** of the Recruitment module. They are provided as reference only and are not executed by Playwright.
-
-| File | Framework | Description |
-|---|---|---|
-| `RecruitmentPage.java` | Selenium WebDriver | Page Object with full Recruitment module actions |
-| `RecruitmentTest.java` | TestNG | End-to-end happy-path hiring workflow |
-| `RecruitmentValidationTest.java` | TestNG | Negative validation tests (empty forms, bad files, etc.) |
-
-These were ported 1-to-1 into:
-- `pages/RecruitmentPage.js` ← from `RecruitmentPage.java`
-- `tests/recruitment.spec.js` ← from `RecruitmentTest.java`
-- `tests/recruitmentValidation.spec.js` ← from `RecruitmentValidationTest.java`
-
-Key differences in the port:
-
-| Java / Selenium | JavaScript / Playwright |
-|---|---|
-| `WebDriverWait` + `ExpectedConditions` | `expect(...).toBeVisible/Enabled()` |
-| `By.xpath(...)` / `By.cssSelector(...)` | `page.locator(xpath)` / `page.getByRole()` |
-| `element.sendKeys(value)` | `locator.fill(value)` |
-| `element.getDomProperty("value")` | `locator.inputValue()` |
-| `input[type=file].sendKeys(path)` | `locator.setInputFiles(path)` |
-| `StaleElementReferenceException` retries | Not needed — Playwright auto-retries |
-| `@BeforeClass` / `@AfterClass` | `test.beforeAll` / `test.afterAll` |
-| `@BeforeMethod` / `@AfterMethod` | `test.beforeEach` / `test.afterEach` |
-| `dependsOnMethods` (TestNG) | `serial` mode (ordered execution) |
-| `ThreadLocalRandom.current().nextInt()` | `Math.random()` |
-| `Files.createTempFile()` + `Files.writeString()` | `fs/promises` `writeFile()` |
 
 ---
 
