@@ -25,7 +25,6 @@ End-to-end test automation suite for the [OrangeHRM](https://opensource-demo.ora
 9. [Viewing the HTML Report](#viewing-the-html-report)
 10. [Configuration](#configuration)
 11. [CI/CD Pipeline](#cicd-pipeline)
-12. [Java Source Files (Reference)](#java-source-files-reference)
 
 ---
 
